@@ -10,12 +10,14 @@ import java.util.stream.Collectors;
 @Component
 public class ReportPrinter {
 
-    public void print(List<DailyAttendance> days) {
+    public void print(List<DailyAttendance> days, int workingDaysInMonth) {
         Map<String, List<DailyAttendance>> byEmployee = days.stream()
                 .collect(Collectors.groupingBy(DailyAttendance::getFullName));
 
         System.out.println();
         System.out.println("=== Отчёт по посещаемости ===");
+        System.out.println("Рабочих дней в месяце: " + workingDaysInMonth);
+        System.out.println();
         System.out.printf("%-35s %-10s %-10s %-10s %-10s%n",
                 "Сотрудник", "Опоздания", "Ранние", "Поздние", "Без нарушений");
 
