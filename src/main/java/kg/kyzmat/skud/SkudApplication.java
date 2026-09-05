@@ -36,15 +36,13 @@ public class SkudApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Временно: очищаем таблицу перед каждым импортом, чтобы не дублировать данные
-        // (Позже это стоит убрать/заменить на более умную логику)
-        // repository здесь напрямую не доступен, поэтому очистим по-другому — см. ниже
-
         File file = new File("C:/Users/Ханума/Downloads/acs_agregator_public_acs_event.xlsx");
         importer.importFromFile(file);
 
         List<DailyAttendance> days = attendanceService.getDailyAttendance();
         statisticsService.calculateViolations(days);
-        reportPrinter.print(days);
+
+        int workingDays = statisticsService.countWorkingDays(2026, 8);
+        reportPrinter.print(days, workingDays);
     }
 }
